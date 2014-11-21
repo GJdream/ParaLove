@@ -44,18 +44,17 @@ and open the template in the editor.
             
             <div class="pull-right form-outer">
                     <div class="form-padding form-holder">
-                        <form class="form-signin" role="form">
+                        <form class="form-signin" action="login.jsp" method="post">
                             <h2 class="text-center">Login</h2>
-                            <input name="username" type="text" class="form-control" placeholder="Username"autofocus>
-                            <input name="userpassword" type="password" class="form-control" placeholder="Password">
+                            <input name="username" type="text" class="form-control" placeholder="Username" autofocus>
+                            <input name="userpasswd" type="password" class="form-control" placeholder="Password">
                             <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-                        
-                            <div class="text-center"><br>---- OR ----<br><br></div>
-                        
-                        <button class="btn btn-lg btn-primary btn-block" type="submit">Get Started for Free!</button>
                         </form>
                         
-                        
+                        <form class="registration" action="registration.jsp" method="post">
+                            <div class="text-center">---- OR ----<br><br></div>
+                            <button class="btn btn-lg btn-primary btn-block" type="submit">Get Started for Free!</button>
+                        </form>
                     </div>
             </div>
         </div>

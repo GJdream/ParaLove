@@ -1,3 +1,9 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package DBWorks;
 
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -18,7 +24,7 @@ public class DBConnection {
     static java.sql.Connection myConnection = null;
                    
     static PreparedStatement myPreparedStatement = null;
-    
+   
     public static ResultSet ExecQuery(String query){
         ResultSet myResultSet = null;
         try{

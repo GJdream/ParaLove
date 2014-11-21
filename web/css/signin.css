@@ -100,3 +100,12 @@ nav {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+
+.registration {
+    max-width: 450px;
+    padding: 15px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    font-weight: normal;
+    z-index: 2;
+}
