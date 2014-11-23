@@ -19,13 +19,13 @@
             } 
             else {
                 
-                query = "SELECT * FROM STUDENT WHERE ID = '" +
-                            username + "' AND Pswd = '" + userpasswd  + "'";
+                query = "SELECT * FROM person WHERE SSN = '" +
+                            username + "' AND Password = '" + userpasswd  + "'";
                	java.sql.ResultSet rs = DBConnection.ExecQuery(query);
 		if (rs.next()) {
                     // login success
                     session.setAttribute("login", username);
-                    response.sendRedirect("StudentInformation.jsp");
+                    response.sendRedirect("ManagerInformation.jsp");
 		} 
                 
                 else{
