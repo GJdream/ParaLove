@@ -103,3 +103,15 @@ body {
   display: inline-block;
   border-radius: 50%;
 }
+
+/*
+    For forms
+ */
+ 
+ .form-holder {
+     width: 450px;
+ }
+ 
+ .table-responsive {
+     width: 1020px;
+ }

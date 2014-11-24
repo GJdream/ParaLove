@@ -4,6 +4,7 @@
     Author     : Jessica
 --%>
 
+<%@page import="DBWorks.DBConnection"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -67,9 +68,72 @@
           </div>
           <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <h1 class="page-header">Employee Information</h1>
-
-            <div>
                 
+            <div class="col-lg-6">
+                <h2>Employees</h2>
+                <div>
+                    <button type="button" onclick="javascript:
+                                        window.open('AddEmployee.jsp','_self');return;">Add New Employee</button>
+                    <br/><br/>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>SSN</th>
+                                <th>Role</th>
+                                <th>Date Started</th>
+                                <th>Hourly Rate</th>
+                                <th>Password</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Address</th>
+                                <th>City</th> 
+                                <th>State</th>
+                                <th>Zip Code</th>
+                                <th>E-mail</th>
+                                <th>Operation</th>
+                             </tr>
+                        </thead>
+                        <tbody>
+                        <%
+                            String managerID = session.getAttribute("login").toString();
+                            java.sql.Connection conn = null;
+                            String Query = "SELECT * FROM employee E NATURAL JOIN person P WHERE E.Role = 'CustRep'";
+                            java.sql.ResultSet rs =DBConnection.ExecQuery(Query);
+                            while(rs.next())
+                            {
+                            %>
+                            <tr>
+                                <td > <% out.print(rs.getString(1)); %> </td>
+                                <td > <% out.print(rs.getString(2)); %> </td>
+                                <td > <% out.print(rs.getString(3)); %> </td>
+                                <td > <% out.print(rs.getString(4)); %> </td>
+                                <td > <% out.print(rs.getString(5)); %> </td>
+                                <td > <% out.print(rs.getString(6)); %> </td>
+                                <td > <% out.print(rs.getString(7)); %> </td>
+                                <td > <% out.print(rs.getString(8)); %> </td>
+                                <td > <% out.print(rs.getString(9)); %> </td>
+                                <td > <% out.print(rs.getString(10)); %> </td>
+                                <td > <% out.print(rs.getString(11)); %> </td>
+                                <td > <% out.print(rs.getString(12)); %> </td>
+                                <td>
+                                    <input type=button onclick="javascript:
+                                        window.open('FacultyDetailedCourseInfo.jsp?crscode=<%=rs.getString(1).trim()%>','_self');return;"
+                                        value="Edit">
+                                    <input type="button" onclick="javascript:if (confirm('Are you sure that you want to delete this employee?')==true)
+                                        {
+                                            window.open('DeleteEmployee.jsp?userid=<%=managerID%>&employee=<%=rs.getString(1)%>','_self');
+                                        };return;" value="Delete">
+                                </td>
+                            </tr>
+                            <%      		
+                            }
+                            %>
+                                    
+                        </tbody>
+                    </table>
+                </div>
             </div>
           </div>
         </div>
