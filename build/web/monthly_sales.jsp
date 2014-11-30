@@ -1,6 +1,6 @@
 <%-- 
-    Document   : DeleteEmployee
-    Created on : Nov 23, 2014, 3:58:05 PM
+    Document   : monthly_sales
+    Created on : Nov 30, 2014, 1:18:49 PM
     Author     : Jessica
 --%>
 
@@ -58,43 +58,52 @@
 
       <div class="container-fluid">
         <div class="row">
-          <div class="col-sm-3 col-md-2 sidebar">
-            <ul class="nav nav-sidebar">
-                <li><a href="ManagerInformation.jsp">Overview</a></li>
-                <li><a href="dashboard_employeeinfo.jsp">Employee Information</a></li>
-                <li><a href="dashboard_sales.jsp">Sales Analytics</a></li>
-                <li><a href="dashboard_customerinfo.jsp">Customer Information</a></li>
-            </ul>
-          </div>
-          <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <h1 class="page-header">Delete Employee</h1>
+            <div class="col-sm-3 col-md-2 sidebar">
+                <ul class="nav nav-sidebar">
+                    <li><a href="ManagerInformation.jsp">Overview</a></li>
+                    <li><a href="dashboard_employeeinfo.jsp">Employee Information</a></li>
+                    <li><a href="dashboard_sales.jsp">Sales Analytics</a></li>
+                    <li><a href="dashboard_customerinfo.jsp">Customer Information</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                <h1 class="page-header">
+                    <%
+                        String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};    
+                        String month = request.getParameter("month");
+                        out.print("Sales Report for " + months[Integer.parseInt(month)-1]);
+                    %>
+                </h1>
 
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Delete Result
-                        </div>
-                        <div class="panel-body">
-                            <% 
-                                String employeeId = request.getParameter("employee");
-                                String query= "DELETE FROM Employee WHERE SSN='"+employeeId+"'";
-                                DBConnection.ExecUpdateQuery(query);
-                                
-                                query= "DELETE FROM Person WHERE SSN='"+employeeId+"'";
-                                DBConnection.ExecUpdateQuery(query);
+                <div class="container">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Month</th>
+                                    <th>Sales</th>
+                                 </tr>
+                            </thead>
+                            <tbody>
+                            <%
+                                java.sql.Connection conn = null;
+                                String Query = "SELECT 	MONTH(D.Date_Time) AS Month, SUM(D.BookingFee) FROM date D WHERE " + month + " = MONTH(D.Date_Time);";
+                                java.sql.ResultSet rs =DBConnection.ExecQuery(Query);
+                                while(rs.next())
+                                {
+                                %>
+                                <tr>
+                                    <td > <% out.print(rs.getString(1)); %> </td>
+                                    <td > <% out.print("$" + rs.getString(2)); %> </td>
+                                </tr>
+                                <%      		
+                                }
                             %>
-                                
-                            Employee was successfully deleted. <br/>
-                                
-                            <a href="dashboard_employeeinfo.jsp"> Back </a>
-                        </div>
-                    </div>
-                        <!-- /.panel -->
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-          </div>
-        </div>
+            </div>
       </div>
 
       <!-- Bootstrap core JavaScript

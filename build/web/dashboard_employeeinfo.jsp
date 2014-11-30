@@ -119,7 +119,7 @@
                                 <td > <% out.print(rs.getString(12)); %> </td>
                                 <td>
                                     <input type=button onclick="javascript:
-                                        window.open('FacultyDetailedCourseInfo.jsp?crscode=<%=rs.getString(1).trim()%>','_self');return;"
+                                        window.open('dashboard_employeeinfo.jsp?crscode=<%=rs.getString(1).trim()%>','_self');return;"
                                         value="Edit">
                                     <input type="button" onclick="javascript:if (confirm('Are you sure that you want to delete this employee?')==true)
                                         {

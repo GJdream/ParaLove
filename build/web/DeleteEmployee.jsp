@@ -80,6 +80,9 @@
                                 String employeeId = request.getParameter("employee");
                                 String query= "DELETE FROM Employee WHERE SSN='"+employeeId+"'";
                                 DBConnection.ExecUpdateQuery(query);
+                                
+                                query= "DELETE FROM Person WHERE SSN='"+employeeId+"'";
+                                DBConnection.ExecUpdateQuery(query);
                             %>
                                 
                             Employee was successfully deleted. <br/>
