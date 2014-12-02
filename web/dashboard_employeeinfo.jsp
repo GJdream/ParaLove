@@ -42,17 +42,17 @@
             </button>
             <a class="navbar-brand" href="#">ParaLove</a>
           </div>
-          <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="#">Dashboard</a></li>
-              <li><a href="#">Settings</a></li>
-              <li><a href="#">Profile</a></li>
-              <li><a href="#">Help</a></li>
+          <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%out.print(session.getAttribute("login")); %> <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Inbox</a></li>
+                        <li><a href="#">Settings</a></li>
+                        <li class="divider"></li>
+                        <li><a href="logout.jsp">Logout</a></li>
+                    </ul>
+                </li>
             </ul>
-            <form class="navbar-form navbar-right">
-              <input type="text" class="form-control" placeholder="Search...">
-            </form>
-          </div>
         </div>
       </nav>
 
@@ -67,10 +67,10 @@
             </ul>
           </div>
           <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <h1 class="page-header">Employee Information</h1>
+            <h1>Employee Information</h1><br/><br/>
                 
-            <div class="col-lg-6">
-                <h2>Employees</h2>
+            <div>
+                <h2 class="page-header">Employees</h2>
                 <div>
                     <button type="button" onclick="javascript:
                                         window.open('AddEmployee.jsp','_self');return;">Add New Employee</button>
