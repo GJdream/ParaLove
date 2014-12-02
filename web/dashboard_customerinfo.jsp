@@ -4,6 +4,7 @@
     Author     : Jessica
 --%>
 
+<%@page import="DBWorks.DBConnection"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -57,21 +58,166 @@
 
       <div class="container-fluid">
         <div class="row">
-          <div class="col-sm-3 col-md-2 sidebar">
-            <ul class="nav nav-sidebar">
-                <li><a href="ManagerInformation.jsp">Overview</a></li>
-                <li><a href="dashboard_employeeinfo.jsp">Employee Information</a></li>
-                <li><a href="dashboard_sales.jsp">Sales Analytics</a></li>
-                <li class="active"><a href="dashboard_customerinfo.jsp">Customer Information <span class="sr-only">(current)</span></a></li>
-            </ul>
-          </div>
-          <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <h1 class="page-header">Customer Information</h1>
-
-            <div>
-                
+            <div class="col-sm-3 col-md-2 sidebar">
+                <ul class="nav nav-sidebar">
+                    <li><a href="ManagerInformation.jsp">Overview</a></li>
+                    <li><a href="dashboard_employeeinfo.jsp">Employee Information</a></li>
+                    <li><a href="dashboard_sales.jsp">Sales Analytics</a></li>
+                    <li class="active"><a href="dashboard_customerinfo.jsp">Customer Information <span class="sr-only">(current)</span></a></li>
+                </ul>
             </div>
-          </div>
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                <h1 class="page-header">Customer Information</h1>
+
+                <div class="col-lg-6 ">
+                <div>
+                    <h2>Most Active Customers</h2>
+                    <div class="form-holder">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>SSN</th>
+                                        <th>DateOfLastAct</th>
+                                        <th>NumDates</th>
+                                        <th>LikesReceived</th>
+                                        <th>NumLikes</th>
+                                     </tr>
+                                </thead>
+                                <tbody>
+                                <%
+                                    java.sql.Connection conn = null;
+                                    String Query = "SELECT U.SSN, U.DateOfLastAct, D.NumDates, T.LikesReceived, T.NumLikes FROM user U, DateCount D, TotalLikes T WHERE U.SSN=D.CustomerSSN AND U.SSN=T.CustomerSSN GROUP BY U.SSN, U.DateOfLastAct, D.NumDates ORDER BY (U.DateOfLastAct-NOW())+D.NumDates+ T.LikesReceived+T.NumLikes DESC;";
+                                    java.sql.ResultSet rs = DBConnection.ExecQuery(Query);
+                                    while(rs.next())
+                                    {
+                                    %>
+                                    <tr>
+                                        <td > <% out.print(rs.getString(1)); %> </td>
+                                        <td > <% out.print(rs.getString(2)); %> </td>
+                                        <td > <% out.print(rs.getString(3)); %> </td>
+                                        <td > <% out.print(rs.getString(4)); %> </td>
+                                        <td > <% out.print(rs.getString(5)); %> </td>
+                                    </tr>
+                                    <%      		
+                                    }
+                                %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div>
+                        <h2>List of All Customers who have Dated a Particular Customer</h2>
+                        <div class="form-holder">
+                            <form class="form-inline" method="post" action="dated_customer.jsp">
+                                <div class="form-group">
+                                    <label for="snn">Enter Customer SSN:</label>
+                                    <input type="text" class="form-control" name="ssn" placeholder="xxx-xx-xxxx">
+                                </div>
+                                <button type="submit" class="btn btn-default">Search</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div>
+                        <h2>Highest-Rated Customers</h2>
+                        <div class="form-holder">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Customer SSN</th>
+                                            <th>First Name</th>
+                                            <th>Last Name</th>
+                                            <th>Rating</th>
+                                         </tr>
+                                    </thead>
+                                    <tbody>
+                                    <%
+                                        conn = null;
+                                        Query = "SELECT U.SSN, U.FirstName, U.LastName, U.Rating FROM UserList U WHERE 	U.Rating >= (SELECT MAX(U2.Rating) FROM UserList U2);";
+                                        rs =DBConnection.ExecQuery(Query);
+                                        while(rs.next())
+                                        {
+                                        %>
+                                        <tr>
+                                            <td > <% out.print(rs.getString(1)); %> </td>
+                                            <td > <% out.print(rs.getString(2)); %> </td>
+                                            <td > <% out.print(rs.getString(3)); %> </td>
+                                            <td > <% out.print(rs.getString(4)); %> </td>
+                                        </tr>
+                                        <%      		
+                                        }
+                                    %>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h2>List of Highest-Rated Calendar Dates to Have a Date On</h2>
+                        <div class="form-holder">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>User 1 Rating</th>
+                                            <th>User 2 Rating</th>
+                                         </tr>
+                                    </thead>
+                                    <tbody>
+                                    <%
+                                        conn = null;
+                                        Query = "SELECT DATE(Date_Time), User1Rating, User2Rating FROM date WHERE User1Rating>=4 OR User2Rating>=4 GROUP BY DATE(Date_Time);";
+                                        rs =DBConnection.ExecQuery(Query);
+                                        while(rs.next())
+                                        {
+                                        %>
+                                        <tr>
+                                            <td > <% out.print(rs.getString(1)); %> </td>
+                                            <td > <% out.print(rs.getString(2)); %> </td>
+                                            <td > <% out.print(rs.getString(3)); %> </td>
+                                        </tr>
+                                        <%      		
+                                        }
+                                    %>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h2>List of Dates</h2>
+                        <div>
+                            <h3>By Calendar Date</h3>
+                            <div class="form-holder">
+                                <form class="form-inline" method="post" action="listdate_caldate.jsp">
+                                    <div class="form-group">
+                                        <label for="date">Enter Date:</label>
+                                        <input type="date" class="form-control" name="date">
+                                    </div>
+                                    <button type="submit" class="btn btn-default">Search</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div>
+                            <h3>By Customer SSN</h3>
+                            <div class="form-holder">
+                                <form class="form-inline" method="post" action="listdate_cusssn.jsp">
+                                    <div class="form-group">
+                                        <label for="ssn">Enter Customer SSN:</label>
+                                        <input type="text" class="form-control" name="ssn"  placeholder="xxx-xx-xxxx">
+                                    </div>
+                                    <button type="submit" class="btn btn-default">Search</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
         </div>
       </div>
 

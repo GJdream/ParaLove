@@ -108,7 +108,7 @@
                                 <td > <% out.print(rs.getString(1)); %> </td>
                                 <td > <% out.print(rs.getString(2)); %> </td>
                                 <td > <% out.print(rs.getString(3)); %> </td>
-                                <td > <% out.print(rs.getString(4)); %> </td>
+                                <td > <% out.print("$" + rs.getString(4)); %> </td>
                                 <td > <% out.print(rs.getString(5)); %> </td>
                                 <td > <% out.print(rs.getString(6)); %> </td>
                                 <td > <% out.print(rs.getString(7)); %> </td>
@@ -119,7 +119,7 @@
                                 <td > <% out.print(rs.getString(12)); %> </td>
                                 <td>
                                     <input type=button onclick="javascript:
-                                        window.open('dashboard_employeeinfo.jsp?crscode=<%=rs.getString(1).trim()%>','_self');return;"
+                                        window.open('edit_employeeinfo.jsp?userid=<%=managerID%>&employee=<%=rs.getString(1)%>','_self');return;"
                                         value="Edit">
                                     <input type="button" onclick="javascript:if (confirm('Are you sure that you want to delete this employee?')==true)
                                         {
@@ -129,7 +129,7 @@
                             </tr>
                             <%      		
                             }
-                            %>
+                        %>
                                     
                         </tbody>
                     </table>
