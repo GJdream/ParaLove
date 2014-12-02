@@ -32,29 +32,29 @@
     </head>
     <body>
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">ParaLove</a>
-          </div>
-          <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="#">Dashboard</a></li>
-              <li><a href="#">Settings</a></li>
-              <li><a href="#">Profile</a></li>
-              <li><a href="#">Help</a></li>
-            </ul>
-            <form class="navbar-form navbar-right">
-              <input type="text" class="form-control" placeholder="Search...">
-            </form>
-          </div>
-        </div>
-      </nav>
+            <div class="container-fluid">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>
+                  <a class="navbar-brand" href="#">ParaLove</a>
+                </div>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%out.print(session.getAttribute("login")); %> <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Inbox</a></li>
+                            <li><a href="#">Settings</a></li>
+                            <li class="divider"></li>
+                            <li><a href="logout.jsp">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
 
       <div class="container-fluid">
         <div class="row">
@@ -86,9 +86,8 @@
                             </thead>
                             <tbody>
                             <%
-                                java.sql.Connection conn = null;
-                                String Query = "SELECT P2.SSN, P2.FirstName, P2.LastName FROM PersonProfileDates P1 JOIN PersonProfileDates P2 WHERE '" + ssn + "' = P1.SSN AND P1.SSN <> P2.SSN AND (P2.Profile1 = P1.ProfileID OR P2.Profile2 = P1.ProfileID) GROUP BY P2.SSN, P2.FirstName, P2.LastName";
-                                java.sql.ResultSet rs =DBConnection.ExecQuery(Query);
+                                String query = "SELECT P2.SSN, P2.FirstName, P2.LastName FROM PersonProfileDates P1 JOIN PersonProfileDates P2 WHERE '" + ssn + "' = P1.SSN AND P1.SSN <> P2.SSN AND (P2.Profile1 = P1.ProfileID OR P2.Profile2 = P1.ProfileID) GROUP BY P2.SSN, P2.FirstName, P2.LastName";
+                                java.sql.ResultSet rs =DBConnection.ExecQuery(query);
                                 while(rs.next())
                                 {
                                 %>
@@ -103,6 +102,7 @@
                             </tbody>
                         </table>
                     </div>
+                    <a href="dashboard_customerinfo.jsp"> Back </a>
                 </div>
             </div>
       </div>

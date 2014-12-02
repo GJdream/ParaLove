@@ -4,6 +4,7 @@
     Author     : Jessica
 --%>
 
+<%@page import="DBWorks.DBConnection"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -31,68 +32,111 @@
     </head>
     <body>
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>
+                  <a class="navbar-brand" href="#">ParaLove</a>
+                </div>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%out.print(session.getAttribute("login")); %> <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Inbox</a></li>
+                            <li><a href="#">Settings</a></li>
+                            <li class="divider"></li>
+                            <li><a href="logout.jsp">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
         <div class="container-fluid">
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-              <a class="navbar-brand" href="#">ParaLove</a>
-            </div>
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%out.print(session.getAttribute("login")); %> <span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Inbox</a></li>
-                        <li><a href="#">Settings</a></li>
-                        <li class="divider"></li>
-                        <li><a href="logout.jsp">Logout</a></li>
+            <div class="row">
+                <div class="col-sm-3 col-md-2 sidebar">
+                    <ul class="nav nav-sidebar">
+                        <li class="active"><a href="ManagerInformation.jsp">Overview <span class="sr-only">(current)</span></a></li>
+                        <li><a href="dashboard_sales.jsp">Sales Analytics</a></li>
+                        <li><a href="dashboard_customerinfo.jsp">Customer Information</a></li>
                     </ul>
-                </li>
-            </ul>
-        </div>
-      </nav>
+                </div>
+                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                    <h1 class="page-header">Dashboard <small>Employee Overview</small></h1>
+                    
+                    <div>
+                        <h2>Employees</h2>
+                        <div>
+                            <button type="button" onclick="javascript:
+                                                window.open('AddEmployee.jsp','_self');return;">Add New Employee</button>
+                            <br/><br/>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>SSN</th>
+                                        <th>Role</th>
+                                        <th>Date Started</th>
+                                        <th>Hourly Rate</th>
+                                        <th>Password</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Address</th>
+                                        <th>City</th> 
+                                        <th>State</th>
+                                        <th>Zip Code</th>
+                                        <th>E-mail</th>
+                                        <th>Operation</th>
+                                     </tr>
+                                </thead>
+                                <tbody>
+                                <%
+                                    String managerID = session.getAttribute("login").toString();
+                                    java.sql.Connection conn = null;
+                                    String Query = "SELECT * FROM employee E NATURAL JOIN person P WHERE E.Role = 'CustRep'";
+                                    java.sql.ResultSet rs =DBConnection.ExecQuery(Query);
+                                    while(rs.next())
+                                    {
+                                    %>
+                                    <tr>
+                                        <td > <% out.print(rs.getString(1)); %> </td>
+                                        <td > <% out.print(rs.getString(2)); %> </td>
+                                        <td > <% out.print(rs.getString(3)); %> </td>
+                                        <td > <% out.print("$" + rs.getString(4)); %> </td>
+                                        <td > <% out.print(rs.getString(5)); %> </td>
+                                        <td > <% out.print(rs.getString(6)); %> </td>
+                                        <td > <% out.print(rs.getString(7)); %> </td>
+                                        <td > <% out.print(rs.getString(8)); %> </td>
+                                        <td > <% out.print(rs.getString(9)); %> </td>
+                                        <td > <% out.print(rs.getString(10)); %> </td>
+                                        <td > <% out.print(rs.getString(11)); %> </td>
+                                        <td > <% out.print(rs.getString(12)); %> </td>
+                                        <td>
+                                            <input type=button onclick="javascript:
+                                                window.open('edit_employeeinfo.jsp?userid=<%=managerID%>&employee=<%=rs.getString(1)%>','_self');return;"
+                                                value="Edit">
+                                            <input type="button" onclick="javascript:if (confirm('Are you sure that you want to delete this employee?')==true)
+                                                {
+                                                    window.open('DeleteEmployee.jsp?userid=<%=managerID%>&employee=<%=rs.getString(1)%>','_self');
+                                                };return;" value="Delete">
+                                        </td>
+                                    </tr>
+                                    <%      		
+                                    }
+                                %>
 
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-sm-3 col-md-2 sidebar">
-            <ul class="nav nav-sidebar">
-              <li class="active"><a href="ManagerInformation.jsp">Overview <span class="sr-only">(current)</span></a></li>
-              <li><a href="dashboard_employeeinfo.jsp">Employee Information</a></li>
-              <li><a href="dashboard_sales.jsp">Sales Analytics</a></li>
-              <li><a href="dashboard_customerinfo.jsp">Customer Information</a></li>
-            </ul>
-          </div>
-          <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <h1 class="page-header">Dashboard</h1>
-
-            <div class="row placeholders">
-              <div class="col-xs-6 col-sm-3 placeholder">
-                <img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="Generic placeholder thumbnail">
-                <h4>Label</h4>
-                <span class="text-muted">Something else</span>
-              </div>
-              <div class="col-xs-6 col-sm-3 placeholder">
-                <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="Generic placeholder thumbnail">
-                <h4>Label</h4>
-                <span class="text-muted">Something else</span>
-              </div>
-              <div class="col-xs-6 col-sm-3 placeholder">
-                <img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="Generic placeholder thumbnail">
-                <h4>Label</h4>
-                <span class="text-muted">Something else</span>
-              </div>
-              <div class="col-xs-6 col-sm-3 placeholder">
-                <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="Generic placeholder thumbnail">
-                <h4>Label</h4>
-                <span class="text-muted">Something else</span>
-              </div>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
 
       <!-- Bootstrap core JavaScript
       ================================================== -->

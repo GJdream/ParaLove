@@ -61,7 +61,6 @@
             <div class="col-sm-3 col-md-2 sidebar">
                 <ul class="nav nav-sidebar">
                     <li><a href="ManagerInformation.jsp">Overview</a></li>
-                    <li><a href="dashboard_employeeinfo.jsp">Employee Information</a></li>
                     <li><a href="dashboard_sales.jsp">Sales Analytics</a></li>
                     <li class="active"><a href="dashboard_customerinfo.jsp">Customer Information <span class="sr-only">(current)</span></a></li>
                 </ul>
@@ -85,7 +84,6 @@
                                 </thead>
                                 <tbody>
                                 <%
-                                    java.sql.Connection conn = null;
                                     String Query = "SELECT U.SSN, U.DateOfLastAct, D.NumDates, T.LikesReceived, T.NumLikes FROM user U, DateCount D, TotalLikes T WHERE U.SSN=D.CustomerSSN AND U.SSN=T.CustomerSSN GROUP BY U.SSN, U.DateOfLastAct, D.NumDates ORDER BY (U.DateOfLastAct-NOW())+D.NumDates+ T.LikesReceived+T.NumLikes DESC;";
                                     java.sql.ResultSet rs = DBConnection.ExecQuery(Query);
                                     while(rs.next())
@@ -132,7 +130,6 @@
                                     </thead>
                                     <tbody>
                                     <%
-                                        conn = null;
                                         Query = "SELECT U.SSN, U.FirstName, U.LastName, U.Rating FROM UserList U WHERE 	U.Rating >= (SELECT MAX(U2.Rating) FROM UserList U2);";
                                         rs =DBConnection.ExecQuery(Query);
                                         while(rs.next())
