@@ -162,14 +162,13 @@
                                     <thead>
                                         <tr>
                                             <th>Date</th>
-                                            <th>User 1 Rating</th>
-                                            <th>User 2 Rating</th>
+                                            <th>Average Rating</th>
                                          </tr>
                                     </thead>
                                     <tbody>
                                     <%
                                         conn = null;
-                                        Query = "SELECT DATE(Date_Time), User1Rating, User2Rating FROM date WHERE User1Rating>=4 OR User2Rating>=4 GROUP BY DATE(Date_Time);";
+                                        Query = "SELECT Date, MAX(AvgRating) FROM AvgDateRating;";
                                         rs =DBConnection.ExecQuery(Query);
                                         while(rs.next())
                                         {
@@ -177,7 +176,6 @@
                                         <tr>
                                             <td > <% out.print(rs.getString(1)); %> </td>
                                             <td > <% out.print(rs.getString(2)); %> </td>
-                                            <td > <% out.print(rs.getString(3)); %> </td>
                                         </tr>
                                         <%      		
                                         }
