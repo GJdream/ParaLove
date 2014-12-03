@@ -40,16 +40,15 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="#">ParaLove</a>
+              <a class="navbar-brand" href="ManagerInformation.jsp">ParaLove</a>
             </div>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%out.print(session.getAttribute("login")); %> <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Inbox</a></li>
-                        <li><a href="#">Settings</a></li>
-                        <li class="divider"></li>
-                        <li><a href="logout.jsp">Logout</a></li>
+                        <li><a href="helpmenu.jsp">Help</a></li>
+                            <li class="divider"></li>
+                            <li><a href="logout.jsp">Logout</a></li>
                     </ul>
                 </li>
             </ul>
@@ -60,7 +59,7 @@
         <div class="row">
             <div class="col-sm-3 col-md-2 sidebar">
                 <ul class="nav nav-sidebar">
-                    <li><a href="ManagerInformation.jsp">Overview</a></li>
+                    <li><a href="ManagerInformation.jsp">Dashboard</a></li>
                     <li><a href="dashboard_sales.jsp">Sales Analytics</a></li>
                     <li class="active"><a href="dashboard_customerinfo.jsp">Customer Information <span class="sr-only">(current)</span></a></li>
                 </ul>
@@ -69,6 +68,56 @@
                 <h1>Customer Information</h1><br/><br/>
 
                 <div>
+                    <div>
+                        <h2 class="page-header">Customers</h2>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>SSN</th>
+                                        <th>PPP</th>
+                                        <th>Rating</th>
+                                        <th>Date Of Last Act</th>
+                                        <th>Password</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Address</th>
+                                        <th>City</th>
+                                        <th>State</th>
+                                        <th>Zip Code</th>
+                                        <th>E-Mail</th>
+                                        <th>Telephone</th>
+                                     </tr>
+                                </thead>
+                                <tbody>
+                                <%
+                                    String Query = "SELECT * FROM userlist;";
+                                    java.sql.ResultSet rs = DBConnection.ExecQuery(Query);
+                                    while(rs.next())
+                                    {
+                                    %>
+                                    <tr>
+                                        <td > <% out.print(rs.getString(1)); %> </td>
+                                        <td > <% out.print(rs.getString(2)); %> </td>
+                                        <td > <% out.print(rs.getString(3)); %> </td>
+                                        <td > <% out.print(rs.getString(4)); %> </td>
+                                        <td > <% out.print(rs.getString(5)); %> </td>
+                                        <td > <% out.print(rs.getString(6)); %> </td>
+                                        <td > <% out.print(rs.getString(7)); %> </td>
+                                        <td > <% out.print(rs.getString(8)); %> </td>
+                                        <td > <% out.print(rs.getString(9)); %> </td>
+                                        <td > <% out.print(rs.getString(10)); %> </td>
+                                        <td > <% out.print(rs.getString(11)); %> </td>
+                                        <td > <% out.print(rs.getString(12)); %> </td>
+                                        <td > <% out.print(rs.getString(13)); %> </td>
+                                    </tr>
+                                    <%      		
+                                    }
+                                %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div><br/><br/>
                     <div>
                         <h2 class="page-header">Most Active Customers</h2>
                         <div class="table-responsive">
@@ -84,8 +133,8 @@
                                 </thead>
                                 <tbody>
                                 <%
-                                    String Query = "SELECT U.SSN, U.DateOfLastAct, D.NumDates, T.LikesReceived, T.NumLikes FROM user U, DateCount D, TotalLikes T WHERE U.SSN=D.CustomerSSN AND U.SSN=T.CustomerSSN GROUP BY U.SSN, U.DateOfLastAct, D.NumDates ORDER BY (U.DateOfLastAct-NOW())+D.NumDates+ T.LikesReceived+T.NumLikes DESC;";
-                                    java.sql.ResultSet rs = DBConnection.ExecQuery(Query);
+                                    Query = "SELECT U.SSN, U.DateOfLastAct, D.NumDates, T.LikesReceived, T.NumLikes FROM user U, DateCount D, TotalLikes T WHERE U.SSN=D.CustomerSSN AND U.SSN=T.CustomerSSN GROUP BY U.SSN, U.DateOfLastAct, D.NumDates ORDER BY (U.DateOfLastAct-NOW())+D.NumDates+ T.LikesReceived+T.NumLikes DESC;";
+                                    rs = DBConnection.ExecQuery(Query);
                                     while(rs.next())
                                     {
                                     %>
@@ -163,7 +212,6 @@
                                     </thead>
                                     <tbody>
                                     <%
-                                        conn = null;
                                         Query = "SELECT Date, MAX(AvgRating) FROM AvgDateRating;";
                                         rs =DBConnection.ExecQuery(Query);
                                         while(rs.next())

@@ -112,3 +112,14 @@ body {
      width: 450px;
      padding: 20px;
  }
+ 
+ /*
+    For help menu page
+ */
+ 
+ .help-center {
+    padding: 30px 15px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+ }

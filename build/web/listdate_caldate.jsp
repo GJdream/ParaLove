@@ -40,14 +40,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                   </button>
-                  <a class="navbar-brand" href="#">ParaLove</a>
+                  <a class="navbar-brand" href="ManagerInformation.jsp">ParaLove</a>
                 </div>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%out.print(session.getAttribute("login")); %> <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Inbox</a></li>
-                            <li><a href="#">Settings</a></li>
+                            <li><a href="helpmenu.jsp">Help</a></li>
                             <li class="divider"></li>
                             <li><a href="logout.jsp">Logout</a></li>
                         </ul>
@@ -60,7 +59,7 @@
         <div class="row">
             <div class="col-sm-3 col-md-2 sidebar">
                 <ul class="nav nav-sidebar">
-                    <li><a href="ManagerInformation.jsp">Overview</a></li>
+                    <li><a href="ManagerInformation.jsp">Dashboard</a></li>
                     <li><a href="dashboard_sales.jsp">Sales Analytics</a></li>
                     <li><a href="dashboard_customerinfo.jsp">Customer Information</a></li>
                 </ul>
