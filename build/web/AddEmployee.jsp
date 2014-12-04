@@ -72,7 +72,7 @@
                         <form method="post" action="addemployee_success.jsp">
                             <div class="form-group">
                                 <label for="ssn">SSN:</label>
-                                <input type="text" class="form-control" name="ssn" placeholder="SSN">
+                                <input type="text" class="form-control" name="ssn" placeholder="SSN" size="11" required>
                             </div>
                             <div class="form-group">
                                 <label for="startdate">Start Date:</label>
@@ -84,7 +84,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="password">Password:</label>
-                                <input type="password" class="form-control" name="password" placeholder="Password">
+                                <input type="password" class="form-control" name="password" placeholder="Password" required>
                             </div>
                             <div class="form-group">
                                 <label for="firstname">First Name:</label>
@@ -116,7 +116,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="phone">Telephone:</label>
-                                <input type="text" class="form-control" name="phone" placeholder="Phone">
+                                <input type="text" class="form-control" name="phone" placeholder="(xxx) xxx-xxxx">
                             </div>
                             <button type="submit" class="btn btn-default">Submit</button>
                         </form>

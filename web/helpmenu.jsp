@@ -43,6 +43,7 @@
             <h1 class="page-header">Help Menu</h1>
             <p>This help menu provides information on ParaLove's user interface
             and how to use it. </p>
+            <a href="https://docs.google.com/document/d/1T1FqiwPspwEI3DOsvBHXtxxbFBajkxU7E2uvn-xMZGc/edit?usp=sharing">Documentation for ParaLove.</a>
             <br/>
             
             <h2 class="page-header">Login</h2>
@@ -156,6 +157,10 @@
             <h2 class="page-header">Customer-Representative UI</h2>
             
             <h2 class="page-header">Customer UI</h2>
+            
+            <script>
+                document.write('<a href="' + document.referrer + '">Go Back</a>');
+            </script>
         </div>
 
     </div><!-- /.container -->

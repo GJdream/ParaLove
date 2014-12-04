@@ -88,3 +88,38 @@ CREATE VIEW AvgDateRating (Date, AvgRating) as
     SELECT Date(Date_Time) AS D, AVG((User1Rating+User2Rating)/2)
     FROM date
     GROUP BY D;
+
+CREATE VIEW RepRevenue (CustRep, Revenue) AS
+    SELECT 	SSN, SUM(BookingFee)
+    FROM 	employee FULL JOIN date ON SSN=CustRep 
+    WHERE 	Role = 'CustRep' 
+    GROUP BY SSN;
+
+CREATE VIEW CusRevenue(CustomerSSN, Revenue) AS
+    SELECT 	SSN, SUM(BookingFee) 
+    FROM 	PersonProfileDates P 
+    GROUP BY SSN;
+
+CREATE VIEW DateCount (CustomerSSN, NumDates) AS
+    SELECT 	P.SSN, COUNT(*) 
+    FROM 	PersonProfileDates P 
+    GROUP BY P.SSN;
+
+CREATE VIEW ReceivedCount(CustomerSSN, LikesReceived, NumLikes) AS 
+    (SELECT     OwnerSSN, COUNT(*) AS LikesReceived,0 AS NumLikes
+    FROM 	Likes FULL JOIN Profile ON Likee = ProfileID 
+    GROUP BY    OwnerSSN) 
+    UNION
+    (SELECT     OwnerSSN, 0 AS LikesReceived, COUNT(*) AS NumLikes
+     FROM 	Likes FULL JOIN profile ON Liker = ProfileID
+     GROUP BY 	OwnerSSN);
+
+
+CREATE VIEW TotalLikes (CustomerSSN, LikesReceived, NumLikes) AS
+    SELECT 	CustomerSSN, SUM(LikesReceived), SUM(NumLikes)
+    FROM 	ReceivedCount T
+    GROUP BY 	CustomerSSN;
+
+CREATE VIEW UserList AS
+    SELECT 	*
+    FROM 	user NATURAL JOIN person;

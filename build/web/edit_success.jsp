@@ -71,7 +71,7 @@
                 <div class="col-lg-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Delete Result
+                            Edit Result
                         </div>
                         <div class="panel-body">
                             <% 
@@ -87,6 +87,7 @@
                                 String state = request.getParameter("state");
                                 int zip = Integer.parseInt(request.getParameter("zip"));
                                 String email = request.getParameter("email");
+                                
                                 String query = "UPDATE person SET Password='" + password + "', FirstName='" 
                                         + firstname + "', LastName='" + lastname + "', Street='" + addr 
                                         + "', City='" + city + "', State='" + state + "', Zipcode=" + zip 
@@ -100,7 +101,7 @@
                                 out.print("Employee information was successfully updated.");
                             %>
                                 
-                            <a href="ManagerInformation.jsp"> Back </a>
+                            <br/><a href="ManagerInformation.jsp"> Back </a>
                         </div>
                     </div>
                         <!-- /.panel -->

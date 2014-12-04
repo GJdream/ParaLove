@@ -96,12 +96,19 @@
                                 String hourlyrate = request.getParameter("hourlyrate");
                                 
                                 query= "INSERT INTO employee VALUES ('" + ssn + "', 'CustRep', '" + startdate + "', " + hourlyrate + ");";
-                                DBConnection.ExecUpdateQuery(query);
+                                if(DBConnection.ExecUpdateQuery(query)==1){
+                                    out.print("Employee was successfully added.");
+                                    %>
+                                    <br/><a href="ManagerInformation.jsp"> Back </a>
+                                    <%
+                                }
+                                else{
+                                    out.print("Employee was not successfully added. Try again.");
+                                    %>
+                                    <br/><a href="AddEmployee.jsp"> Back </a>
+                                    <%
+                                }
                             %>
-                                
-                            Employee was successfully added. <br/>
-                                
-                            <a href="ManagerInformation.jsp"> Back </a>
                         </div>
                     </div>
                         <!-- /.panel -->
